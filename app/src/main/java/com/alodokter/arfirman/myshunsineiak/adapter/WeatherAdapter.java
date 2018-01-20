@@ -1,10 +1,14 @@
-package com.alodokter.arfirman.myshunsineiak;
+package com.alodokter.arfirman.myshunsineiak.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.alodokter.arfirman.myshunsineiak.activity.DetailWeatherActivity;
+import com.alodokter.arfirman.myshunsineiak.viewholder.WeatherViewHolder;
 
 /**
  * Created by alodokter-arfirman on 14/01/18.
@@ -30,6 +34,8 @@ public class WeatherAdapter extends RecyclerView.Adapter implements WeatherViewH
 
     @Override
     public void onWeatherClick(WeatherViewHolder holder) {
-        Toast.makeText(holder.itemView.getContext(), "Ini item ke " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(holder.itemView.getContext(), "Ini item ke " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(holder.itemView.getContext(), DetailWeatherActivity.class);
+        holder.itemView.getContext().startActivity(intent);
     }
 }
