@@ -19,7 +19,7 @@ public class Forecast {
     @SerializedName("weather")
     private List<Weather> weatherList;
 
-    private class Temperature {
+    public class Temperature {
         @SerializedName("day")
         private double tempDay;
 
@@ -28,10 +28,10 @@ public class Forecast {
         }
     }
 
-    private class Weather {
+    public class Weather {
         @SerializedName("main")
         private String weatherMain;
-        @SerializedName("desc")
+        @SerializedName("description")
         private String weatherDesc;
         @SerializedName("icon")
         private String weatherIcon;
