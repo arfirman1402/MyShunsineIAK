@@ -1,5 +1,7 @@
 package com.alodokter.arfirman.myshunsineiak;
 
+import com.alodokter.arfirman.myshunsineiak.model.WeatherResponse;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,5 +15,5 @@ public interface WeatherApi {
     String API_KEY = App.getInstance().getApplicationContext().getString(R.string.api_key_weather);
 
     @GET("forecast/daily")
-    Call getDailyForecast(@Query("q") String cityName, @Query("mode") String mode, @Query("units") String unit, @Query("cnt") int countData, @Query("appid") String apiKey);
+    Call<WeatherResponse> getDailyForecast(@Query("q") String cityName, @Query("mode") String mode, @Query("units") String unit, @Query("cnt") int countData, @Query("appid") String apiKey);
 }

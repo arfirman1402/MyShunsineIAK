@@ -11,17 +11,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alodokter.arfirman.myshunsineiak.R;
+import com.alodokter.arfirman.myshunsineiak.WeatherController;
 import com.alodokter.arfirman.myshunsineiak.adapter.WeatherAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.main_today) TextView mainToday;
-    @BindView(R.id.main_weather_image) ImageView mainWeatherImage;
-    @BindView(R.id.main_weather_desc) TextView mainWeatherDesc;
-    @BindView(R.id.main_weather_temp) TextView mainWeatherTemp;
-    @BindView(R.id.main_weather_list) RecyclerView mainWeatherList;
+    @BindView(R.id.main_today)
+    TextView mainToday;
+    @BindView(R.id.main_weather_image)
+    ImageView mainWeatherImage;
+    @BindView(R.id.main_weather_desc)
+    TextView mainWeatherDesc;
+    @BindView(R.id.main_weather_temp)
+    TextView mainWeatherTemp;
+    @BindView(R.id.main_weather_list)
+    RecyclerView mainWeatherList;
 
     private WeatherAdapter weatherAdapter;
 
@@ -31,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+
+        WeatherController controller = new WeatherController();
+        controller.getWeatherList();
     }
 
     private void initView() {
