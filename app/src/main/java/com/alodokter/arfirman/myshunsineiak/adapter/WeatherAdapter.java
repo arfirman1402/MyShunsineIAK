@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alodokter.arfirman.myshunsineiak.App;
 import com.alodokter.arfirman.myshunsineiak.R;
 import com.alodokter.arfirman.myshunsineiak.activity.DetailWeatherActivity;
 import com.alodokter.arfirman.myshunsineiak.model.Forecast;
@@ -64,6 +65,8 @@ public class WeatherAdapter extends RecyclerView.Adapter implements WeatherViewH
     @Override
     public void onWeatherClick(WeatherViewHolder holder) {
         Intent intent = new Intent(holder.itemView.getContext(), DetailWeatherActivity.class);
+        String forecastJson = App.getInstance().getGson().toJson(forecasts.get(holder.getAdapterPosition()));
+        intent.putExtra("forecast", forecastJson);
         holder.itemView.getContext().startActivity(intent);
     }
 }
