@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,6 +13,10 @@ import com.alodokter.arfirman.myshunsineiak.App;
 import com.alodokter.arfirman.myshunsineiak.R;
 import com.alodokter.arfirman.myshunsineiak.model.Forecast;
 import com.bumptech.glide.Glide;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,14 +59,25 @@ public class DetailWeatherActivity extends AppCompatActivity {
         String forecastJson = getIntent().getStringExtra("forecast");
         Forecast forecast = App.getInstance().getGson().fromJson(forecastJson, Forecast.class);
 
-        detailWeatherDate.setText(DateUtils.getRelativeTimeSpanString(this, forecast.getForecastDate() * 1000));
+        Date date = new Date(forecast.getForecastDate() * 1000);
+        String datePattern = "EEEE, dd MMMM yyyy";
+        SimpleDateFormat outputFormat = new SimpleDateFormat(datePattern, Locale.getDefault());
+        String strDate = outputFormat.format(date);
+
+        detailWeatherDate.setText(strDate);
         Glide.with(this).load(getWeatherImageUrl(forecast.getWeatherList().get(0).getWeatherIcon())).into(detailWeatherImage);
         detailWeatherDesc.setText(forecast.getWeatherList().get(0).getWeatherDesc());
-        detailWeatherTemp.setText(forecast.getTemperature().getTempDay() + getString(R.string.degree));
+        long tempDay = Math.round(forecast.getTemperature().getTempDay());
+        detailWeatherTemp.setText(tempDay + getString(R.string.degree));
 
-        detailWeatherHumidity.setText(forecast.getHumidity() + "%");
-        detailWeatherPressure.setText(forecast.getPressure() + " hPa");
-        detailWeatherWind.setText(forecast.getSpeed() + " km/h");
+        long humidity = Math.round(forecast.getHumidity());
+        detailWeatherHumidity.setText(humidity + "%");
+
+        long pressure = Math.round(forecast.getPressure());
+        detailWeatherPressure.setText(pressure + " hPa");
+
+        long speed = Math.round(forecast.getSpeed());
+        detailWeatherWind.setText(speed + " km/h");
 
         shareContent = "Cuaca hari ini " + forecast.getWeatherList().get(0).getWeatherDesc() + " suhu " + forecast.getTemperature().getTempDay() + " " + getString(R.string.degree);
     }

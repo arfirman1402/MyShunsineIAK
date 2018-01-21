@@ -22,9 +22,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,14 +80,16 @@ public class MainActivity extends AppCompatActivity {
             List<Forecast> forecasts = event.getForecastList();
             Forecast todayForecast = forecasts.get(0);
 
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTimeInMillis(todayForecast.getForecastDate() * 1000);
-            calendar.getTime();
-            String calendarStr = calendar.get(GregorianCalendar.DAY_OF_MONTH) + "-" + (calendar.get(GregorianCalendar.MONTH) + 1) + "-" + calendar.get(GregorianCalendar.YEAR);
-            mainToday.setText(calendarStr);
+            Date date = new Date(todayForecast.getForecastDate() * 1000);
+            String datePattern = "EEEE, dd MMMM yyyy";
+            SimpleDateFormat outputFormat = new SimpleDateFormat(datePattern, Locale.getDefault());
+            String strDate = outputFormat.format(date);
+
+            mainToday.setText(strDate);
             Glide.with(this).load(getWeatherImageUrl(todayForecast.getWeatherList().get(0).getWeatherIcon())).into(mainWeatherImage);
             mainWeatherDesc.setText(todayForecast.getWeatherList().get(0).getWeatherDesc());
-            mainWeatherTemp.setText(todayForecast.getTemperature().getTempDay() + getString(R.string.degree));
+            long tempDay = Math.round(todayForecast.getTemperature().getTempDay());
+            mainWeatherTemp.setText(tempDay + getString(R.string.degree));
 
             weatherAdapter.setData(forecasts);
         } else {
